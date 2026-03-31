@@ -1,0 +1,48 @@
+# Uni AI Proxy 配置
+
+server:
+  host: "127.0.0.1"
+  port: 9090
+
+# Session 管理
+session:
+  ttl: 1800  # 秒，默认 30 分钟
+
+# 并发控制
+concurrency:
+  max: 5        # 最多同时运行的 CLI 进程数
+  maxQueued: 50 # 排队上限，超出直接 429
+
+# CLI 进程超时（毫秒），默认 5 分钟
+timeout: 300000
+
+# 默认模型（未指定 model 时使用）
+defaultModel: "gemini"
+
+# CLI 工具路径（留空则使用 PATH 中的命令）
+cli:
+  gemini: ""      # 例如 /usr/local/bin/gemini
+  claude: ""      # 例如 /usr/local/bin/claude
+
+# 模型别名映射
+# 格式：别名 → { provider, model }
+models:
+  gemini:
+    provider: "gemini"
+    model: "gemini-2.5-flash"
+  gemini-pro:
+    provider: "gemini"
+    model: "gemini-2.5-pro"
+  claude:
+    provider: "claude"
+    model: "sonnet"
+  claude-opus:
+    provider: "claude"
+    model: "opus"
+  # OpenAI 兼容别名
+  gpt-4:
+    provider: "claude"
+    model: "opus"
+  gpt-4o-mini:
+    provider: "gemini"
+    model: "gemini-2.5-flash"

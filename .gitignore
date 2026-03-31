@@ -1,0 +1,7 @@
+node_modules/
+dist/
+config.yaml
+.env
+*.js.map
+.proxy.pid
+proxy.log
