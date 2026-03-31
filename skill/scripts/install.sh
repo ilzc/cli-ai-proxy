@@ -4,7 +4,7 @@ set -euo pipefail
 # Install cli-ai-proxy: clone, build, and optionally configure OpenClaw.
 # Usage: install.sh [--configure-openclaw]
 
-REPO_URL="https://github.com/user/cli-ai-proxy.git"  # TODO: update with actual repo URL
+REPO_URL="https://github.com/ilzc/cli-ai-proxy.git"
 INSTALL_DIR="${CLI_AI_PROXY_DIR:-$HOME/.local/share/cli-ai-proxy}"
 
 echo "=== cli-ai-proxy installer ==="
