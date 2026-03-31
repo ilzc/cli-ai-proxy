@@ -122,7 +122,51 @@ r = client.chat.completions.create(
 print(r.choices[0].message.content)
 ```
 
-## Using with OpenClaw
+## CLI Tool
+
+The proxy ships a CLI for lifecycle management:
+
+```bash
+cli-ai-proxy start                # start the proxy server
+cli-ai-proxy stop                 # graceful shutdown
+cli-ai-proxy restart              # restart
+cli-ai-proxy status               # running status + health
+cli-ai-proxy health               # health check (JSON)
+cli-ai-proxy configure-openclaw   # auto-configure OpenClaw provider
+cli-ai-proxy help                 # show help
+```
+
+Install globally: `npm install -g cli-ai-proxy`
+
+## OpenClaw Skill
+
+An [OpenClaw](https://openclaw.com) skill is included in `skill/` for agent-driven proxy management.
+
+### Install the skill
+
+```bash
+# Copy into OpenClaw workspace
+cp -r skill ~/.openclaw/workspace/skills/cli-ai-proxy
+
+# Or download from GitHub Release
+curl -L https://github.com/ilzc/cli-ai-proxy/releases/latest/download/cli-ai-proxy-skill-0.1.0.tar.gz | tar xz -C ~/.openclaw/workspace/skills/
+```
+
+Verify: `openclaw skills list` should show `✓ ready | 🔀 cli_ai_proxy`.
+
+### Auto-configure OpenClaw provider
+
+```bash
+cli-ai-proxy configure-openclaw
+```
+
+This adds `cli-ai-proxy` as a provider in `~/.openclaw/openclaw.json` with all available models. Then set the default model:
+
+```json
+{ "agents": { "defaults": { "model": { "primary": "cli-ai-proxy/gemini" } } } }
+```
+
+### Manual OpenClaw configuration
 
 Add to `~/.openclaw/openclaw.json`:
 
@@ -146,13 +190,6 @@ Add to `~/.openclaw/openclaw.json`:
             "maxTokens": 8192
           }
         ]
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "cli-ai-proxy/gemini"
       }
     }
   }

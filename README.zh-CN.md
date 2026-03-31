@@ -122,7 +122,51 @@ r = client.chat.completions.create(
 print(r.choices[0].message.content)
 ```
 
-## 与 OpenClaw 配合使用
+## CLI 工具
+
+代理提供 CLI 进行生命周期管理：
+
+```bash
+cli-ai-proxy start                # 启动代理
+cli-ai-proxy stop                 # 优雅关闭
+cli-ai-proxy restart              # 重启
+cli-ai-proxy status               # 运行状态 + 健康检查
+cli-ai-proxy health               # 健康检查（JSON）
+cli-ai-proxy configure-openclaw   # 自动配置 OpenClaw provider
+cli-ai-proxy help                 # 查看帮助
+```
+
+全局安装：`npm install -g cli-ai-proxy`
+
+## OpenClaw Skill
+
+项目包含 [OpenClaw](https://openclaw.com) skill（位于 `skill/` 目录），支持 agent 驱动的代理管理。
+
+### 安装 Skill
+
+```bash
+# 复制到 OpenClaw 工作区
+cp -r skill ~/.openclaw/workspace/skills/cli-ai-proxy
+
+# 或从 GitHub Release 下载
+curl -L https://github.com/ilzc/cli-ai-proxy/releases/latest/download/cli-ai-proxy-skill-0.1.0.tar.gz | tar xz -C ~/.openclaw/workspace/skills/
+```
+
+验证：`openclaw skills list` 应显示 `✓ ready | 🔀 cli_ai_proxy`。
+
+### 自动配置 OpenClaw Provider
+
+```bash
+cli-ai-proxy configure-openclaw
+```
+
+自动将 `cli-ai-proxy` 添加为 `~/.openclaw/openclaw.json` 中的 provider，注册所有可用模型。然后设置默认模型：
+
+```json
+{ "agents": { "defaults": { "model": { "primary": "cli-ai-proxy/gemini" } } } }
+```
+
+### 手动配置 OpenClaw
 
 在 `~/.openclaw/openclaw.json` 中添加：
 
@@ -146,13 +190,6 @@ print(r.choices[0].message.content)
             "maxTokens": 8192
           }
         ]
-      }
-    }
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "cli-ai-proxy/gemini"
       }
     }
   }
