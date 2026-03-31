@@ -1,5 +1,5 @@
 #!/bin/bash
-# Uni AI Proxy 端到端测试
+# CLI AI Proxy 端到端测试
 # 使用前确保服务已启动: node dist/index.js
 
 BASE="http://127.0.0.1:9090"
@@ -23,7 +23,7 @@ check() {
 }
 
 echo "═══════════════════════════════════════"
-echo "  Uni AI Proxy - E2E Tests"
+echo "  CLI AI Proxy - E2E Tests"
 echo "═══════════════════════════════════════"
 echo ""
 

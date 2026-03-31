@@ -47,11 +47,11 @@ export function loadConfig(configPath = "config.yaml"): Config {
   const config: Config = {
     server: {
       host:
-        process.env["UNI_AI_HOST"] ??
+        process.env["CLI_AI_HOST"] ??
         fc.server?.host ??
         DEFAULT_CONFIG.server.host,
-      port: process.env["UNI_AI_PORT"]
-        ? parseInt(process.env["UNI_AI_PORT"], 10)
+      port: process.env["CLI_AI_PORT"]
+        ? parseInt(process.env["CLI_AI_PORT"], 10)
         : fc.server?.port ?? DEFAULT_CONFIG.server.port,
     },
     session: {

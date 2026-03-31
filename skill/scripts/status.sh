@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Show uni-ai-proxy status and health information.
+# Show cli-ai-proxy status and health information.
 
-INSTALL_DIR="${UNI_AI_PROXY_DIR:-$HOME/.local/share/uni-ai-proxy}"
+INSTALL_DIR="${CLI_AI_PROXY_DIR:-$HOME/.local/share/cli-ai-proxy}"
 CLI="$INSTALL_DIR/dist/cli.js"
 
 if [[ ! -f "$CLI" ]]; then

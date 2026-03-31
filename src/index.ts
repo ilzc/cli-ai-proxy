@@ -97,7 +97,7 @@ process.on("SIGINT", () => shutdown("SIGINT"));
 
 server.listen(config.server.port, config.server.host, () => {
   log.info(
-    `Uni AI Proxy listening on http://${config.server.host}:${config.server.port}`,
+    `CLI AI Proxy listening on http://${config.server.host}:${config.server.port}`,
   );
   log.info(`Models: ${Object.keys(config.models).join(", ")}`);
   log.info(`Default model: ${config.defaultModel}`);

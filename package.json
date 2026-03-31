@@ -1,10 +1,10 @@
 {
-  "name": "uni-ai-proxy",
+  "name": "cli-ai-proxy",
   "version": "0.1.0",
   "description": "Local OpenAI-compatible API proxy for AI CLI tools (Gemini CLI, Claude Code)",
   "type": "module",
   "bin": {
-    "uni-ai-proxy": "dist/cli.js"
+    "cli-ai-proxy": "dist/cli.js"
   },
   "scripts": {
     "build": "tsc",

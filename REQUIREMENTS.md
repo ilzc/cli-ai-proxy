@@ -1,4 +1,4 @@
-# Uni AI Proxy - 需求文档
+# CLI AI Proxy - 需求文档
 
 ## 项目概述
 

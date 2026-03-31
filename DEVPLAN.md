@@ -1,4 +1,4 @@
-# Uni AI Proxy - 开发计划
+# CLI AI Proxy - 开发计划
 
 ## 技术选型
 
@@ -13,7 +13,7 @@
 ## 项目结构
 
 ```
-uni-ai-proxy/
+cli-ai-proxy/
 ├── .gitignore
 ├── config.yaml              # 用户配置（gitignore）
 ├── config.example.yaml      # 配置模板

@@ -1,4 +1,4 @@
-# Uni AI Proxy
+# CLI AI Proxy
 
 [中文文档](./README.zh-CN.md)
 
@@ -98,7 +98,7 @@ models:
     model: "opus"
 ```
 
-Environment variable overrides: `UNI_AI_HOST`, `UNI_AI_PORT`, `GEMINI_CLI_PATH`, `CLAUDE_CLI_PATH`.
+Environment variable overrides: `CLI_AI_HOST`, `CLI_AI_PORT`, `GEMINI_CLI_PATH`, `CLAUDE_CLI_PATH`.
 
 ## Sessions
 
@@ -131,7 +131,7 @@ Add to `~/.openclaw/openclaw.json`:
   "models": {
     "mode": "merge",
     "providers": {
-      "uni-ai-proxy": {
+      "cli-ai-proxy": {
         "baseUrl": "http://127.0.0.1:9090/v1",
         "apiKey": "no-key-needed",
         "api": "openai-completions",
@@ -152,7 +152,7 @@ Add to `~/.openclaw/openclaw.json`:
   "agents": {
     "defaults": {
       "model": {
-        "primary": "uni-ai-proxy/gemini"
+        "primary": "cli-ai-proxy/gemini"
       }
     }
   }

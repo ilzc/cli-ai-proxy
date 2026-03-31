@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install uni-ai-proxy: clone, build, and optionally configure OpenClaw.
+# Install cli-ai-proxy: clone, build, and optionally configure OpenClaw.
 # Usage: install.sh [--configure-openclaw]
 
-REPO_URL="https://github.com/user/uni-ai-proxy.git"  # TODO: update with actual repo URL
-INSTALL_DIR="${UNI_AI_PROXY_DIR:-$HOME/.local/share/uni-ai-proxy}"
+REPO_URL="https://github.com/user/cli-ai-proxy.git"  # TODO: update with actual repo URL
+INSTALL_DIR="${CLI_AI_PROXY_DIR:-$HOME/.local/share/cli-ai-proxy}"
 
-echo "=== uni-ai-proxy installer ==="
+echo "=== cli-ai-proxy installer ==="
 
 # ─── Prerequisites ───
 

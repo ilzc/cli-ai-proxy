@@ -1,4 +1,4 @@
-# Uni AI Proxy
+# CLI AI Proxy
 
 [English](./README.md)
 
@@ -98,7 +98,7 @@ models:
     model: "opus"
 ```
 
-环境变量覆盖：`UNI_AI_HOST`、`UNI_AI_PORT`、`GEMINI_CLI_PATH`、`CLAUDE_CLI_PATH`。
+环境变量覆盖：`CLI_AI_HOST`、`CLI_AI_PORT`、`GEMINI_CLI_PATH`、`CLAUDE_CLI_PATH`。
 
 ## 会话管理
 
@@ -131,7 +131,7 @@ print(r.choices[0].message.content)
   "models": {
     "mode": "merge",
     "providers": {
-      "uni-ai-proxy": {
+      "cli-ai-proxy": {
         "baseUrl": "http://127.0.0.1:9090/v1",
         "apiKey": "no-key-needed",
         "api": "openai-completions",
@@ -152,7 +152,7 @@ print(r.choices[0].message.content)
   "agents": {
     "defaults": {
       "model": {
-        "primary": "uni-ai-proxy/gemini"
+        "primary": "cli-ai-proxy/gemini"
       }
     }
   }

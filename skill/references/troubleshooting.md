@@ -15,7 +15,7 @@ kill <PID>
 
 Or change the port in `config.yaml` or via env:
 ```bash
-UNI_AI_PORT=9091 uni-ai-proxy start
+CLI_AI_PORT=9091 cli-ai-proxy start
 ```
 
 ### Node.js not found
@@ -139,7 +139,7 @@ rm -f <install-dir>/tmp-images/img-*
 ### Provider not loading
 After running `configure-provider.sh`:
 1. Restart the OpenClaw gateway: `openclaw gateway restart`
-2. Verify in `~/.openclaw/openclaw.json` that `models.providers.uni-ai-proxy` exists
+2. Verify in `~/.openclaw/openclaw.json` that `models.providers.cli-ai-proxy` exists
 3. Ensure the proxy is running: check `curl http://127.0.0.1:9090/health`
 
 ### "Message ordering conflict"
@@ -149,8 +149,8 @@ OpenClaw sends content in array format (`[{"type":"text","text":"..."}]`). The p
 Verify models are registered in `agents.defaults.models` in `openclaw.json`:
 ```json
 {
-  "uni-ai-proxy/gemini": {},
-  "uni-ai-proxy/claude": {}
+  "cli-ai-proxy/gemini": {},
+  "cli-ai-proxy/claude": {}
 }
 ```
 

@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * uni-ai-proxy CLI — manage the local OpenAI-compatible proxy.
+ * cli-ai-proxy CLI — manage the local OpenAI-compatible proxy.
  *
  * Usage:
- *   uni-ai-proxy start   [-p port] [-h host] [-d]
- *   uni-ai-proxy stop
- *   uni-ai-proxy restart  [-p port] [-h host]
- *   uni-ai-proxy status
- *   uni-ai-proxy health
- *   uni-ai-proxy configure-openclaw [--token TOKEN]
- *   uni-ai-proxy help
+ *   cli-ai-proxy start   [-p port] [-h host] [-d]
+ *   cli-ai-proxy stop
+ *   cli-ai-proxy restart  [-p port] [-h host]
+ *   cli-ai-proxy status
+ *   cli-ai-proxy health
+ *   cli-ai-proxy configure-openclaw [--token TOKEN]
+ *   cli-ai-proxy help
  */
 
 import { spawn, execSync } from "node:child_process";
@@ -137,8 +137,8 @@ async function cmdStart(args: string[]): Promise<void> {
 
   const opts = parseArgs(args);
   const env: Record<string, string> = { ...process.env as Record<string, string> };
-  if (opts["port"]) env["UNI_AI_PORT"] = opts["port"];
-  if (opts["host"]) env["UNI_AI_HOST"] = opts["host"];
+  if (opts["port"]) env["CLI_AI_PORT"] = opts["port"];
+  if (opts["host"]) env["CLI_AI_HOST"] = opts["host"];
 
   const child = spawn("node", [DIST_INDEX], {
     cwd: PROJECT_ROOT,
@@ -243,12 +243,12 @@ function cmdConfigureOpenclaw(args: string[]): void {
   // Backup
   writeFileSync(openclawConfig + ".bak", raw);
 
-  // Add uni-ai-proxy provider
+  // Add cli-ai-proxy provider
   if (!config.models) config.models = {};
   config.models.mode = config.models.mode ?? "merge";
   if (!config.models.providers) config.models.providers = {};
 
-  config.models.providers["uni-ai-proxy"] = {
+  config.models.providers["cli-ai-proxy"] = {
     baseUrl: `http://${host}:${port}/v1`,
     apiKey: "no-key-needed",
     api: "openai-completions",
@@ -298,10 +298,10 @@ function cmdConfigureOpenclaw(args: string[]): void {
   if (!config.agents.defaults.models) config.agents.defaults.models = {};
 
   const proxyModels = [
-    "uni-ai-proxy/gemini",
-    "uni-ai-proxy/gemini-pro",
-    "uni-ai-proxy/claude",
-    "uni-ai-proxy/claude-opus",
+    "cli-ai-proxy/gemini",
+    "cli-ai-proxy/gemini-pro",
+    "cli-ai-proxy/claude",
+    "cli-ai-proxy/claude-opus",
   ];
   for (const m of proxyModels) {
     if (!config.agents.defaults.models[m]) {
@@ -311,31 +311,31 @@ function cmdConfigureOpenclaw(args: string[]): void {
 
   writeFileSync(openclawConfig, JSON.stringify(config, null, 2) + "\n");
   console.log("OpenClaw configured:");
-  console.log(`  Provider: uni-ai-proxy → http://${host}:${port}/v1`);
+  console.log(`  Provider: cli-ai-proxy → http://${host}:${port}/v1`);
   console.log(`  Models: ${proxyModels.join(", ")}`);
   console.log(`  Backup: ${openclawConfig}.bak`);
   console.log("");
   console.log("To set as default model:");
   console.log(
-    '  Set agents.defaults.model.primary to "uni-ai-proxy/gemini" in openclaw.json',
+    '  Set agents.defaults.model.primary to "cli-ai-proxy/gemini" in openclaw.json',
   );
 }
 
 function cmdHelp(): void {
-  console.log(`uni-ai-proxy — Local OpenAI-compatible proxy for AI CLI tools
+  console.log(`cli-ai-proxy — Local OpenAI-compatible proxy for AI CLI tools
 
 Usage:
-  uni-ai-proxy start   [-p port] [-h host]   Start the proxy server
-  uni-ai-proxy stop                           Stop the proxy server
-  uni-ai-proxy restart  [-p port] [-h host]   Restart the proxy server
-  uni-ai-proxy status                         Show running status and health
-  uni-ai-proxy health                         Show health check (JSON)
-  uni-ai-proxy configure-openclaw             Auto-configure OpenClaw provider
-  uni-ai-proxy help                           Show this help
+  cli-ai-proxy start   [-p port] [-h host]   Start the proxy server
+  cli-ai-proxy stop                           Stop the proxy server
+  cli-ai-proxy restart  [-p port] [-h host]   Restart the proxy server
+  cli-ai-proxy status                         Show running status and health
+  cli-ai-proxy health                         Show health check (JSON)
+  cli-ai-proxy configure-openclaw             Auto-configure OpenClaw provider
+  cli-ai-proxy help                           Show this help
 
 Environment:
-  UNI_AI_HOST        Override listen host
-  UNI_AI_PORT        Override listen port
+  CLI_AI_HOST        Override listen host
+  CLI_AI_PORT        Override listen port
   GEMINI_CLI_PATH    Path to gemini CLI binary
   CLAUDE_CLI_PATH    Path to claude CLI binary
 

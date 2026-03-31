@@ -1,5 +1,5 @@
 #!/bin/bash
-# Uni AI Proxy 管理脚本
+# CLI AI Proxy 管理脚本
 
 DIR="$(cd "$(dirname "$0")" && pwd)"
 PID_FILE="$DIR/.proxy.pid"

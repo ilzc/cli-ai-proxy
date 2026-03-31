@@ -1,11 +1,11 @@
 ---
-name: uni_ai_proxy
-description: "Manage uni-ai-proxy: local OpenAI-compatible proxy that routes requests through Gemini CLI and Claude Code, no API keys needed"
+name: cli_ai_proxy
+description: "Manage cli-ai-proxy: local OpenAI-compatible proxy that routes requests through Gemini CLI and Claude Code, no API keys needed"
 user-invocable: true
-metadata: { "openclaw": { "emoji": "🔀", "skillKey": "uni-ai-proxy", "requires": { "anyBins": ["gemini", "claude"], "bins": ["node", "npm"] }, "install": [ { "id": "npm", "kind": "node", "package": "uni-ai-proxy", "bins": ["uni-ai-proxy"], "label": "Install uni-ai-proxy via npm" } ] } }
+metadata: { "openclaw": { "emoji": "🔀", "skillKey": "cli-ai-proxy", "requires": { "anyBins": ["gemini", "claude"], "bins": ["node", "npm"] }, "install": [ { "id": "npm", "kind": "node", "package": "cli-ai-proxy", "bins": ["cli-ai-proxy"], "label": "Install cli-ai-proxy via npm" } ] } }
 ---
 
-# Uni AI Proxy
+# CLI AI Proxy
 
 Local OpenAI-compatible proxy that bridges Gemini CLI and Claude Code to a unified REST API. Requests go through installed CLI tools — no direct API calls, no API key management.
 
@@ -70,7 +70,7 @@ Gracefully shuts down the proxy: stops accepting connections, kills active CLI s
 | `claude` | Claude Code | sonnet |
 | `claude-opus` | Claude Code | opus |
 
-When OpenClaw is configured, use as `uni-ai-proxy/gemini`, `uni-ai-proxy/claude`, etc.
+When OpenClaw is configured, use as `cli-ai-proxy/gemini`, `cli-ai-proxy/claude`, etc.
 
 ## OpenClaw Integration
 
@@ -81,13 +81,13 @@ To configure OpenClaw to route through the proxy:
 ```
 
 This automatically:
-1. Adds `uni-ai-proxy` as a provider in `~/.openclaw/openclaw.json`
+1. Adds `cli-ai-proxy` as a provider in `~/.openclaw/openclaw.json`
 2. Registers all proxy models in the agent defaults
 3. Creates a backup of the original config
 
 After configuring, set the default model in `openclaw.json`:
 ```json
-{ "agents": { "defaults": { "model": { "primary": "uni-ai-proxy/gemini" } } } }
+{ "agents": { "defaults": { "model": { "primary": "cli-ai-proxy/gemini" } } } }
 ```
 
 ## API Endpoints

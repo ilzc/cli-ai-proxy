@@ -45,8 +45,8 @@ models:
 
 | Variable | Overrides | Example |
 |----------|-----------|---------|
-| `UNI_AI_HOST` | `server.host` | `0.0.0.0` |
-| `UNI_AI_PORT` | `server.port` | `8080` |
+| `CLI_AI_HOST` | `server.host` | `0.0.0.0` |
+| `CLI_AI_PORT` | `server.port` | `8080` |
 | `GEMINI_CLI_PATH` | `cli.gemini` | `/usr/local/bin/gemini` |
 | `CLAUDE_CLI_PATH` | `cli.claude` | `/usr/local/bin/claude` |
 

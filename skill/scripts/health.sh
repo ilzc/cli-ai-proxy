@@ -4,11 +4,11 @@ set -euo pipefail
 # Health check — outputs JSON from the /health endpoint.
 # Exit code 0 if healthy, 1 if unreachable.
 
-INSTALL_DIR="${UNI_AI_PROXY_DIR:-$HOME/.local/share/uni-ai-proxy}"
+INSTALL_DIR="${CLI_AI_PROXY_DIR:-$HOME/.local/share/cli-ai-proxy}"
 CLI="$INSTALL_DIR/dist/cli.js"
 
 if [[ ! -f "$CLI" ]]; then
-  echo '{"status":"not_installed","error":"uni-ai-proxy not found"}'
+  echo '{"status":"not_installed","error":"cli-ai-proxy not found"}'
   exit 1
 fi
 
