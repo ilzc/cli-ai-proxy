@@ -255,7 +255,7 @@ function cmdConfigureOpenclaw(args: string[]): void {
     models: [
       {
         id: "gemini",
-        name: "Gemini 2.5 Flash (via CLI)",
+        name: "Gemini (CLI default model)",
         reasoning: false,
         input: ["text"],
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
@@ -263,16 +263,16 @@ function cmdConfigureOpenclaw(args: string[]): void {
         maxTokens: 8192,
       },
       {
-        id: "gemini-pro",
-        name: "Gemini 2.5 Pro (via CLI)",
-        reasoning: true,
+        id: "claude",
+        name: "Claude (CLI default model)",
+        reasoning: false,
         input: ["text"],
         cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-        contextWindow: 1048576,
+        contextWindow: 200000,
         maxTokens: 8192,
       },
       {
-        id: "claude",
+        id: "claude-sonnet",
         name: "Claude Sonnet (via CLI)",
         reasoning: false,
         input: ["text"],
@@ -299,8 +299,8 @@ function cmdConfigureOpenclaw(args: string[]): void {
 
   const proxyModels = [
     "cli-ai-proxy/gemini",
-    "cli-ai-proxy/gemini-pro",
     "cli-ai-proxy/claude",
+    "cli-ai-proxy/claude-sonnet",
     "cli-ai-proxy/claude-opus",
   ];
   for (const m of proxyModels) {

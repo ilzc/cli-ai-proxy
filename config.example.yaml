@@ -26,23 +26,18 @@ cli:
 
 # 模型别名映射
 # 格式：别名 → { provider, model }
+# model 设为 "default" 则使用 CLI 自身的默认模型（推荐）
+# model 也可指定 CLI 认识的具体模型名（如 sonnet, opus）
 models:
   gemini:
     provider: "gemini"
-    model: "gemini-2.5-flash"
-  gemini-pro:
-    provider: "gemini"
-    model: "gemini-2.5-pro"
+    model: "default"            # CLI 默认模型（随 CLI 更新自动升级）
   claude:
     provider: "claude"
-    model: "sonnet"
+    model: "default"            # CLI 默认模型
+  claude-sonnet:
+    provider: "claude"
+    model: "sonnet"             # 明确指定 sonnet
   claude-opus:
     provider: "claude"
-    model: "opus"
-  # OpenAI 兼容别名
-  gpt-4:
-    provider: "claude"
-    model: "opus"
-  gpt-4o-mini:
-    provider: "gemini"
-    model: "gemini-2.5-flash"
+    model: "opus"               # 明确指定 opus

@@ -228,7 +228,9 @@ function buildArgs(options: ProviderOptions, outputFormat: string): string[] {
   }
 
   args.push("--output-format", outputFormat);
-  args.push("--model", options.model);
+  if (options.model && options.model !== "default") {
+    args.push("--model", options.model);
+  }
 
   return args;
 }

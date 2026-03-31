@@ -65,9 +65,9 @@ Gracefully shuts down the proxy: stops accepting connections, kills active CLI s
 
 | Model ID | Provider | Backend Model |
 |----------|----------|---------------|
-| `gemini` | Gemini CLI | gemini-2.5-flash |
-| `gemini-pro` | Gemini CLI | gemini-2.5-pro |
-| `claude` | Claude Code | sonnet |
+| `gemini` | Gemini CLI | CLI default (auto-upgrades) |
+| `claude` | Claude Code | CLI default (auto-upgrades) |
+| `claude-sonnet` | Claude Code | sonnet |
 | `claude-opus` | Claude Code | opus |
 
 When OpenClaw is configured, use as `cli-ai-proxy/gemini`, `cli-ai-proxy/claude`, etc.

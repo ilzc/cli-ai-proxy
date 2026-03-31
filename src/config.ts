@@ -23,9 +23,9 @@ const DEFAULT_CONFIG: Config = {
     claude: "claude",
   },
   models: {
-    gemini: { provider: "gemini", model: "gemini-2.5-flash" },
-    "gemini-pro": { provider: "gemini", model: "gemini-2.5-pro" },
-    claude: { provider: "claude", model: "sonnet" },
+    gemini: { provider: "gemini", model: "default" },
+    claude: { provider: "claude", model: "default" },
+    "claude-sonnet": { provider: "claude", model: "sonnet" },
     "claude-opus": { provider: "claude", model: "opus" },
   },
 };

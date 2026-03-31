@@ -230,7 +230,9 @@ function buildArgs(
   }
 
   args.push("--output-format", outputFormat);
-  args.push("--model", options.model);
+  if (options.model && options.model !== "default") {
+    args.push("--model", options.model);
+  }
 
   if (systemPrompt && !options.cliSessionId) {
     args.push("--system-prompt", systemPrompt);
