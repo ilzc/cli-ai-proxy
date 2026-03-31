@@ -1,5 +1,7 @@
 # Uni AI Proxy
 
+[中文文档](./README.zh-CN.md)
+
 Local OpenAI-compatible API proxy that bridges AI CLI tools (Gemini CLI, Claude Code) to a unified REST API.
 
 Any application that supports the OpenAI API format can seamlessly use local AI models through their CLI tools — no API keys to manage, no direct API calls.
@@ -32,7 +34,7 @@ npm start
 ## Prerequisites
 
 At least one of:
-- [Gemini CLI](https://github.com/google-gemini/gemini-cli) — `npm install -g @anthropic-ai/claude-code` is not needed, just `gemini` in PATH
+- [Gemini CLI](https://github.com/google-gemini/gemini-cli) — `gemini` in PATH
 - [Claude Code](https://github.com/anthropics/claude-code) — `claude` in PATH
 
 Each CLI handles its own authentication (OAuth, API key, etc.).
