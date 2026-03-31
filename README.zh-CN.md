@@ -86,16 +86,16 @@ cli:
 models:
   gemini:
     provider: "gemini"
-    model: "gemini-2.5-flash"
-  gemini-pro:
-    provider: "gemini"
-    model: "gemini-2.5-pro"
+    model: "default"          # CLI 默认模型（随 CLI 更新自动升级）
   claude:
     provider: "claude"
-    model: "sonnet"
+    model: "default"          # CLI 默认模型
+  claude-sonnet:
+    provider: "claude"
+    model: "sonnet"           # 明确指定别名
   claude-opus:
     provider: "claude"
-    model: "opus"
+    model: "opus"             # 明确指定别名
 ```
 
 环境变量覆盖：`CLI_AI_HOST`、`CLI_AI_PORT`、`GEMINI_CLI_PATH`、`CLAUDE_CLI_PATH`。

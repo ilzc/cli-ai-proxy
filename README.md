@@ -86,16 +86,16 @@ cli:
 models:
   gemini:
     provider: "gemini"
-    model: "gemini-2.5-flash"
-  gemini-pro:
-    provider: "gemini"
-    model: "gemini-2.5-pro"
+    model: "default"          # CLI default model (auto-upgrades)
   claude:
     provider: "claude"
-    model: "sonnet"
+    model: "default"          # CLI default model
+  claude-sonnet:
+    provider: "claude"
+    model: "sonnet"           # explicit alias
   claude-opus:
     provider: "claude"
-    model: "opus"
+    model: "opus"             # explicit alias
 ```
 
 Environment variable overrides: `CLI_AI_HOST`, `CLI_AI_PORT`, `GEMINI_CLI_PATH`, `CLAUDE_CLI_PATH`.
