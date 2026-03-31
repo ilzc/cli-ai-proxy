@@ -13,6 +13,7 @@ import { GeminiProvider } from "./providers/gemini.js";
 import { ClaudeProvider } from "./providers/claude.js";
 import { createSession, getSession } from "./session.js";
 import { Semaphore, QueueFullError } from "./concurrency.js";
+import { processImages, cleanupImages, hasImageContent, type ImageFile } from "./images.js";
 import { makeError, CliError, CliNotFoundError, CliTimeoutError } from "./utils/errors.js";
 import * as log from "./utils/logger.js";
 import { execFile } from "node:child_process";
@@ -165,13 +166,34 @@ export async function handleChatCompletions(
     throw err;
   }
 
+  // 图片处理：提取 image_url parts，保存为临时文件，替换为文本引用
+  let imageFiles: ImageFile[] = [];
+  let messages = request.messages;
+  if (hasImageContent(messages)) {
+    try {
+      const result = await processImages(messages, modelMapping.provider);
+      messages = result.messages;
+      imageFiles = result.imageFiles;
+      if (imageFiles.length > 0) {
+        log.info(`Processed ${imageFiles.length} image(s) for ${modelMapping.provider}`);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      log.error(`Image processing failed: ${msg}`);
+      // 图片处理失败不阻断请求，继续用原始 messages
+    }
+  }
+
   try {
-    if (request.stream) {
+    // 用处理后的 messages 替换原始 request
+    const effectiveRequest = { ...request, messages };
+
+    if (effectiveRequest.stream) {
       await handleStream(
         config,
         provider,
         modelMapping,
-        request,
+        effectiveRequest,
         cliPath,
         effectiveCliSessionId,
         sessionId,
@@ -185,7 +207,7 @@ export async function handleChatCompletions(
         config,
         provider,
         modelMapping,
-        request,
+        effectiveRequest,
         cliPath,
         effectiveCliSessionId,
         sessionId,
@@ -199,6 +221,7 @@ export async function handleChatCompletions(
     handleProviderError(err, cliPath, res);
   } finally {
     sem.release();
+    if (imageFiles.length > 0) cleanupImages(imageFiles);
   }
 }
 
