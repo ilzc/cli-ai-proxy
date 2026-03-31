@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install & Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Package skill
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          STAGE="cli-ai-proxy-${VERSION}"
+
+          mkdir -p "$STAGE"
+
+          # Skill files
+          cp -r skill/* "$STAGE/"
+
+          # Built proxy (for install.sh to use)
+          cp -r dist "$STAGE/dist"
+          cp package.json package-lock.json config.example.yaml tsconfig.json "$STAGE/"
+          mkdir -p "$STAGE/src"
+          cp -r src/* "$STAGE/src/"
+          mkdir -p "$STAGE/tmp-images"
+          cp tmp-images/.gitkeep "$STAGE/tmp-images/"
+
+          # Tarball
+          tar czf "cli-ai-proxy-${VERSION}.tar.gz" "$STAGE"
+
+          # Skill-only tarball (just SKILL.md + scripts + references)
+          tar czf "cli-ai-proxy-skill-${VERSION}.tar.gz" -C "$STAGE" SKILL.md scripts references
+
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            cli-ai-proxy-${{ env.VERSION }}.tar.gz
+            cli-ai-proxy-skill-${{ env.VERSION }}.tar.gz
