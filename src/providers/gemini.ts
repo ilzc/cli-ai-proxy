@@ -6,7 +6,7 @@ import type { ProviderResult } from "../types.js";
 import { serializeForGemini, extractText } from "../messages.js";
 import { CliError, CliNotFoundError, CliTimeoutError } from "../utils/errors.js";
 import * as log from "../utils/logger.js";
-import { sendSSEChunk, sendSSEDone, sendSSEError, sendSSEFinish, writeSSEHeaders } from "../sse.js";
+import { sendSSEChunk, sendSSEDone, sendSSEError, sendSSEFinish, writeSSEHeaders, startSSEHeartbeat } from "../sse.js";
 
 export class GeminiProvider implements Provider {
   readonly name = "gemini";
@@ -133,9 +133,11 @@ export class GeminiProvider implements Provider {
 
     // spawn 成功，现在可以安全地发送 SSE headers
     writeSSEHeaders(res);
+    const stopHeartbeat = startSSEHeartbeat(res);
 
     return new Promise((resolve, reject) => {
       const timeout = setTimeout(() => {
+        stopHeartbeat();
         child.kill("SIGTERM");
         sendSSEError(res, "Request timed out");
         sendSSEDone(res);
@@ -186,6 +188,7 @@ export class GeminiProvider implements Provider {
 
       child.on("close", () => {
         clearTimeout(timeout);
+        stopHeartbeat();
 
         if (buffer.trim()) {
           try {

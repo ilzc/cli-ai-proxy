@@ -75,3 +75,20 @@ export function sendSSEDone(res: ServerResponse): void {
   if (!canWrite(res)) return;
   res.write(`data: [DONE]\n\n`);
 }
+
+/**
+ * 启动 SSE 心跳：每 interval 毫秒发送一条 SSE comment（`: keepalive`）。
+ * SSE 规范中 `:` 开头的行是注释，客户端忽略但 TCP 连接保持活跃，
+ * 防止上游代理/客户端因空闲超时断开连接。
+ * 返回 stop 函数。
+ */
+export function startSSEHeartbeat(res: ServerResponse, intervalMs = 15_000): () => void {
+  const timer = setInterval(() => {
+    if (canWrite(res)) {
+      res.write(`: keepalive\n\n`);
+    } else {
+      clearInterval(timer);
+    }
+  }, intervalMs);
+  return () => clearInterval(timer);
+}
