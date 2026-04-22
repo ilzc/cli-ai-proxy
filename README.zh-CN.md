@@ -4,7 +4,7 @@
 
 本地 OpenAI 兼容 API 代理，将 AI CLI 工具（Gemini CLI、Claude Code）桥接为统一的 REST API。
 
-任何支持 OpenAI API 格式的应用都可以通过本代理无缝调用本地 AI 模型 —— 无需管理 API Key，不直接调用任何 AI API。
+任何支持 OpenAI API 格式的应用都可以通过本代理调用本地 AI 模型，不直接请求任何 AI 厂商 API。**代理本身不读取也不存储任何 API Key** —— 认证（OAuth、API Key、session token 等）完全由本机的 `gemini` / `claude` CLI 自行处理。
 
 ## 为什么需要它
 
@@ -208,7 +208,38 @@ Skill 的 `install.sh` 实际做了什么：
   - `~/.openclaw/openclaw.json` —— **仅当**显式执行 `cli-ai-proxy configure-openclaw` 时才修改，且修改前会在同目录写入 `.bak` 备份
 - **运行时网络：** 默认只监听 `127.0.0.1:9090`。代理本身不发起对外请求；对外流量由用户本机安装的 `gemini` / `claude` CLI 在处理请求时产生
 - **凭据：** 不索取、不存储任何凭据，认证完全交给 CLI 工具
-- **卸载方式：** `npm uninstall -g cli-ai-proxy`；如果执行过 `configure-openclaw`，用 `.bak` 文件还原 `~/.openclaw/openclaw.json` 即可
+
+### ⚠️ 不要把代理暴露到本机以外
+
+本代理只为 loopback 使用设计。以下两个设置如果改了，会让代理对局域网甚至公网可达，而**代理本身没有任何认证**：
+
+- `server.host` / 环境变量 `CLI_AI_HOST` —— **保持默认 `127.0.0.1`**。改成 `0.0.0.0` 后，同网段任何设备都能调用你的代理（取决于防火墙）。
+- CORS 响应头 —— 代理默认返回 `Access-Control-Allow-Origin: *`，便于浏览器中的本地页面调用。**只在绑定 127.0.0.1 时安全**；一旦 host 改成 `0.0.0.0`，这就是个敞口。如果确实要对外暴露，请在前面加一层带认证和严格 CORS 的反向代理。
+
+### 自行校验 npm 包
+
+不用盲信 README，全局安装前可以自查：
+
+```bash
+# 确认已发布的包没有 pre/postinstall 钩子：
+npm view cli-ai-proxy scripts
+# 期望输出：{ build: 'tsc', start: 'node dist/index.js', dev: '...' }
+# （无 preinstall / postinstall / prepare）
+
+# 查看这个包会往你电脑上写入哪些文件：
+npm view cli-ai-proxy dist.tarball
+npm pack cli-ai-proxy --dry-run
+```
+
+如果你关心供应链可信度，npm 包页面会显示绿色的 "Provenance" 徽章，链接到构建这个 tarball 的具体 GitHub Actions 运行和 commit。
+
+### 卸载方式
+
+```bash
+npm uninstall -g cli-ai-proxy
+# 如果执行过 `configure-openclaw`，用 .bak 还原 OpenClaw 配置：
+mv ~/.openclaw/openclaw.json.bak ~/.openclaw/openclaw.json
+```
 
 ## 不支持的 OpenAI 参数
 

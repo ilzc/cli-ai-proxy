@@ -1,13 +1,13 @@
 ---
 name: cli_ai_proxy
-description: "Manage cli-ai-proxy: local OpenAI-compatible proxy that routes requests through Gemini CLI and Claude Code, no API keys needed"
+description: "Manage cli-ai-proxy: local OpenAI-compatible proxy that routes requests through Gemini CLI and Claude Code. The proxy itself reads no credentials; the underlying CLIs handle their own auth."
 user-invocable: true
 metadata: { "openclaw": { "emoji": "🔀", "skillKey": "cli-ai-proxy", "requires": { "anyBins": ["gemini", "claude"], "bins": ["node", "npm"] }, "install": [ { "id": "npm", "kind": "node", "package": "cli-ai-proxy", "bins": ["cli-ai-proxy"], "label": "Install cli-ai-proxy via npm" } ] } }
 ---
 
 # CLI AI Proxy
 
-Local OpenAI-compatible proxy that bridges Gemini CLI and Claude Code to a unified REST API. Requests go through installed CLI tools — no direct API calls, no API key management.
+Local OpenAI-compatible proxy that bridges Gemini CLI and Claude Code to a unified REST API. Requests go through the installed CLI tools — the proxy makes no direct AI-vendor API calls and holds no API keys. Authentication (OAuth, API keys, session tokens) is managed by the `gemini` / `claude` CLIs themselves.
 
 ## What This Installs
 
