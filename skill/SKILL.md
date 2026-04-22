@@ -9,6 +9,17 @@ metadata: { "openclaw": { "emoji": "🔀", "skillKey": "cli-ai-proxy", "requires
 
 Local OpenAI-compatible proxy that bridges Gemini CLI and Claude Code to a unified REST API. Requests go through installed CLI tools — no direct API calls, no API key management.
 
+## What This Installs
+
+This skill installs the `cli-ai-proxy` package from the public npm registry. Specifically:
+
+- **Source:** public npm registry package `cli-ai-proxy` (no GitHub clone, no local build step)
+- **Postinstall scripts:** none — the package's `package.json` declares no `preinstall`/`postinstall` hooks
+- **Runtime dependencies:** one — `yaml` (config parsing)
+- **Filesystem writes:** only under the global npm prefix (for the binary) and, when the proxy runs, under its working directory for `config.yaml`, `.proxy.pid`, and `proxy.log`
+- **Config mutations:** only if you explicitly run `configure-provider.sh` / `cli-ai-proxy configure-openclaw`, which edits `~/.openclaw/openclaw.json` and writes a `.bak` backup next to it first
+- **Network at runtime:** localhost HTTP server only; outbound calls are performed by the user's installed `gemini` / `claude` CLIs, not by the proxy itself
+
 ## When to Use
 
 ✅ User asks to start/stop/check the AI proxy

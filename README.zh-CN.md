@@ -142,14 +142,13 @@ cli-ai-proxy help                 # 查看帮助
 
 项目包含 [OpenClaw](https://openclaw.com) skill（位于 `skill/` 目录），支持 agent 驱动的代理管理。
 
+Skill 的安装脚本非常薄：仅执行 `npm install -g cli-ai-proxy`，不会 git clone、不会本地编译、不触发任何 postinstall 钩子。详见下方[安全说明](#安全说明)。
+
 ### 安装 Skill
 
 ```bash
 # 复制到 OpenClaw 工作区
 cp -r skill ~/.openclaw/workspace/skills/cli-ai-proxy
-
-# 或从 GitHub Release 下载
-curl -L https://github.com/ilzc/cli-ai-proxy/releases/latest/download/cli-ai-proxy-skill-0.1.0.tar.gz | tar xz -C ~/.openclaw/workspace/skills/
 ```
 
 验证：`openclaw skills list` 应显示 `✓ ready | 🔀 cli_ai_proxy`。
@@ -195,6 +194,21 @@ cli-ai-proxy configure-openclaw
   }
 }
 ```
+
+## 安全说明
+
+Skill 的 `install.sh` 实际做了什么：
+
+- **来源：** 从公共 npm registry 执行 `npm install -g cli-ai-proxy`，不 git clone、不本地编译 TypeScript
+- **postinstall 脚本：** 无 —— `package.json` 没有声明任何 `preinstall` / `postinstall` 钩子。可用 `npm view cli-ai-proxy scripts` 验证
+- **运行时依赖：** 只有 1 个：`yaml`，无其他传递依赖（Node stdlib 除外）
+- **文件写入：**
+  - 安装时：写入 npm 全局前缀（可执行文件位置）
+  - 运行时：在代理工作目录写入 `config.yaml`、`.proxy.pid`、`proxy.log`，以及每次请求后清理的 `tmp-images/` 临时目录
+  - `~/.openclaw/openclaw.json` —— **仅当**显式执行 `cli-ai-proxy configure-openclaw` 时才修改，且修改前会在同目录写入 `.bak` 备份
+- **运行时网络：** 默认只监听 `127.0.0.1:9090`。代理本身不发起对外请求；对外流量由用户本机安装的 `gemini` / `claude` CLI 在处理请求时产生
+- **凭据：** 不索取、不存储任何凭据，认证完全交给 CLI 工具
+- **卸载方式：** `npm uninstall -g cli-ai-proxy`；如果执行过 `configure-openclaw`，用 `.bak` 文件还原 `~/.openclaw/openclaw.json` 即可
 
 ## 不支持的 OpenAI 参数
 

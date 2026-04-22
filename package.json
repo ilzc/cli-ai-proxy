@@ -19,6 +19,14 @@
     "cli",
     "ai"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilzc/cli-ai-proxy.git"
+  },
+  "homepage": "https://github.com/ilzc/cli-ai-proxy#readme",
+  "bugs": {
+    "url": "https://github.com/ilzc/cli-ai-proxy/issues"
+  },
   "license": "MIT",
   "files": [
     "dist/",
